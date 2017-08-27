@@ -1,6 +1,7 @@
 package av.by;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,7 +19,9 @@ public class Parse {
 	String marka;
 	String model;
 	WebDriver driver;
-	DbAvto dbAvto = new DbAvto();
+	ArrayAvto arrayAvtoClass = new ArrayAvto();
+	
+	ArrayList<Avto> arrayAvto;
 
 	public void connectBrowser(String url, String marka1, String model1) {
 		marka = marka1;
@@ -37,8 +40,9 @@ public class Parse {
 		transitionPage2();
 		transitionPage3ToEnd();
 		
-		//печать array
-		dbAvto.printArrayAvto();
+		//array
+		arrayAvtoClass.seachAvtoByDateUpTo3Days(arrayAvto);
+		
 		//закрывает окно браузера
 		driver.quit();
 		
@@ -291,6 +295,7 @@ public class Parse {
 					.findElement(By.xpath("li[4]")).findElement(By.xpath("dl[2]")).findElement(By.xpath("dd")).getText());
 			
 			java.sql.Date dateUpdateSql;
+			String test = "1900.01.01";
 			
 			if (dateUpdateParse == null){
 				//передаем дату с помощью метода getTime() в экземл€р sql.Date
@@ -328,7 +333,7 @@ public class Parse {
 			System.out.println("ќшибка, номер телефона | Parse/aloneAvto()");
 		}
 		
-		dbAvto.addAvtoInArray(avto);
+		arrayAvto = arrayAvtoClass.addAvtoInArray(avto);
 		
 		System.out.println("÷ена в рубл€х: "+avto.getCenaRub());
 		System.out.println("÷ена в долларах: "+avto.getCenaUsd());
@@ -359,6 +364,7 @@ public class Parse {
 		//write in db
 		PostgreSQLAvtoTest postgreSQLAvtoTest = new PostgreSQLAvtoTest();
 		postgreSQLAvtoTest.postgreSQLAvtoTest(avto);
+		
 	}
 	
 	public void saveImgAvto(){

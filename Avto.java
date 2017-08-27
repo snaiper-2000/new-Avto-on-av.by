@@ -35,9 +35,9 @@ public class Avto {
 	// Ссылка на авто
 	private String url = null;
 	// Дата подачи объявления
-	private java.sql.Date create = null;
+	private java.sql.Date create = new java.sql.Date(0,0,1);
 	// Дата обновления объявления
-	private java.sql.Date update = null;
+	private java.sql.Date update = new java.sql.Date(0,0,1);
 	// Привод
 	private String privod = null;
 	//Номер телефона
